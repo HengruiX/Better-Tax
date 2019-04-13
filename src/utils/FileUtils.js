@@ -1,7 +1,7 @@
 export const parseW2 = async (file, firebase) => {
   const url = await uploadFile(file, firebase);
   const jsondata = await uploadFileToServer(url);
-  // save to database
+  return jsondata;
 };
 
 const uploadFile = async (file, firebase) => {

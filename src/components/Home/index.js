@@ -8,6 +8,7 @@ import AttachMarker from '@material-ui/icons/AttachFile';
 import TravelHistoryMarker from '@material-ui/icons/Public';
 
 import FormModal from './FormModal';
+import AboutYouForm from './AboutYouForm';
 import ResidencyForm from './ResidencyForm';
 import VisaForm from './VisaForm';
 import UploadW2Form from './UploadW2Form';
@@ -16,9 +17,8 @@ import { withAuthorization, AuthUserContext } from '../Session';
 import './styles.css';
 import './summary-card.css';
 
-import { parseW2 } from '../../utils/FileUtils';
 import { scrapeI94 } from '../../utils/ScrapUtils';
-import { getUserCompletion } from '../../utils/DBUtils';
+import { getUserCompletion, completeItem } from '../../utils/DBUtils';
 
 class HomePageInContext extends Component {
   state = { completion: null };
@@ -31,6 +31,19 @@ class HomePageInContext extends Component {
     this.setState({ completion });
   }
 
+  onComplete = index => {
+    return () => {
+      completeItem(this.props.firebase, this.props.authUser, index).then(
+        () => {
+          this.setState(oldstate => {
+            oldstate.completion[index] = true;
+            return oldstate;
+          });
+        }
+      );
+    }
+  }
+
   render() {
     if (this.state.completion == null) {
       return null;
@@ -40,23 +53,28 @@ class HomePageInContext extends Component {
         <SummaryCard fedReturn={1000000} />
         <OverviewCard
           completed={this.state.completion[0]}
-          FormProp={ResidencyForm}
+          FormProp={AboutYouForm}
         >
-          Section 1
+          About You
         </OverviewCard>
-        <OverviewCard completed={this.state.completion[1]} FormProp={VisaForm}>
-          Section 2
+        <OverviewCard 
+          completed={this.state.completion[1]} 
+          FormProp={ResidencyForm}
+          onComplete={this.onComplete(1)}
+        >
+          Residency Info
         </OverviewCard>
         <OverviewCard
           completed={this.state.completion[2]}
-          FormProp={ResidencyForm}
+          FormProp={VisaForm}
         >
-          Section 3
+          Visa Info
         </OverviewCard>
         <OverviewCard
           completed={this.state.completion[3]}
           FormProp={UploadW2Form}
           icon={AttachMarker}
+          onComplete={this.onComplete(3)}
         >
           Upload Your W2
         </OverviewCard>
@@ -66,23 +84,6 @@ class HomePageInContext extends Component {
         >
           Get Your Travel Records
         </OverviewCard>
-        {/* <input type="file" onChange={e => parseW2(e.target.files[0], firebase)} /> */}
-        <button
-          onClick={() => {
-            scrapeI94(
-              {
-                fn: 'Harvey',
-                ln: 'Wu',
-                bd: '05',
-                bm: 'February',
-                by: '1996',
-                pp: 'GK935918',
-                pc: 'Canada'
-              },
-              firebase
-            );
-          }}
-        />
       </div>
     );
   }
@@ -118,7 +119,7 @@ const SummaryCard = ({ fedReturn }) => {
   );
 };
 
-const OverviewCard = ({ children, FormProp, completed, icon }) => {
+const OverviewCard = ({ children, FormProp, completed, icon, onComplete }) => {
   const [modalOpened, setModalOpened] = useState(false);
   return (
     <div>
@@ -128,13 +129,14 @@ const OverviewCard = ({ children, FormProp, completed, icon }) => {
         square={false}
         elevation={1}
       >
-        {icon ? (
-          <AttachMarker className="progress-marker" />
-        ) : completed ? (
+
+        {completed ? (
           <DoneMarker className="progress-marker" />
-        ) : (
+        ) : icon ? (
+            <AttachMarker className="progress-marker" />
+          ) : (
           <NotDoneMarker className="progress-marker" />
-        )}
+          )}
 
         <Typography className="section-name" variant="h5" component="h4">
           {children}
@@ -147,6 +149,7 @@ const OverviewCard = ({ children, FormProp, completed, icon }) => {
         >
           <FormProp
             onSubmit={() => {
+              onComplete();
               setModalOpened(!modalOpened);
             }}
           />
