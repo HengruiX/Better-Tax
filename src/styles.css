@@ -1,4 +1,16 @@
-html *
+html
 {
    font-family: 'Montserrat';
+}
+
+.background-img {
+  background-image: url(".//screenshot.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(20px);
+  -webkit-filter: blur(8px);
+
+  width: 70%;
+  height: 100%;
 }

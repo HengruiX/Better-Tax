@@ -6,6 +6,7 @@ import { Hero, Navbar, Features } from '@front10/landing-page-book/dist/componen
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@front10/landing-page-book/dist/themes/default/index.css';
 
+import image from "../../screenshot.png";
 import "./styles.css";
 
 class LandingPage extends Component {
@@ -37,6 +38,8 @@ class LandingPage extends Component {
         <Button type="button" color="primary" onClick={this.toggleModal}>
           Get Started!
         </Button>
+        <div className="background-img">
+        </div>
         <LoginModal show={this.state.show} toggleModal={this.toggleModal}>
           <UserForm />
         </LoginModal>

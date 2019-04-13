@@ -31,6 +31,7 @@ class UploadW2FormInContext extends Component {
       updateUser(this.props.firebase, this.props.authUser, jsondata).then(
         () => {
           this.props.onSubmit();
+          this.props.setReturn(jsondata.federal_tax);
         }
       )
     });
@@ -73,13 +74,13 @@ class UploadW2FormInContext extends Component {
   }
 }
 
-const UploadW2Form = ({onSubmit}) => {
+const UploadW2Form = ({onSubmit, setReturn}) => {
   return (
     <FirebaseContext.Consumer>
       {firebase => (
         <AuthUserContext.Consumer>
           {authUser => (
-            <UploadW2FormInContext firebase={firebase} authUser={authUser} onSubmit={onSubmit}/>
+            <UploadW2FormInContext firebase={firebase} authUser={authUser} onSubmit={onSubmit} setReturn={setReturn}/>
           )}
         </AuthUserContext.Consumer>
       )}

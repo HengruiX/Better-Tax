@@ -7,11 +7,8 @@ import NotDoneMarker from '@material-ui/icons/KeyboardArrowRight';
 import AttachMarker from '@material-ui/icons/AttachFile';
 import PowerSetter from '@material-ui/icons/PowerSettingsNew';
 import Fab from '@material-ui/core/Fab';
-import IconButton from '@material-ui/core/IconButton';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CloseIcon from '@material-ui/icons/Close';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import FormModal from './FormModal';
 import AboutYouForm from './AboutYouForm';
@@ -26,10 +23,10 @@ import { withAuthorization, AuthUserContext } from '../Session';
 import './styles.css';
 import './summary-card.css';
 
-import { getUserCompletion, completeItem } from '../../utils/DBUtils';
+import { getUserCompletion, completeItem, uploadAll, getReturn } from '../../utils/DBUtils';
 
 class HomePageInContext extends Component {
-  state = { completion: null, scrapeResults: null };
+  state = { completion: null, scrapeResults: null, process: 0, url: null, return: '-' };
 
   async componentDidMount() {
     const completion = await getUserCompletion(
@@ -37,6 +34,8 @@ class HomePageInContext extends Component {
       this.props.authUser
     );
     this.setState({ completion });
+    const r = await getReturn(this.props.firebase, this.props.authUser);
+    this.setState({return : r || '-'})
   }
 
   onComplete = index => {
@@ -52,6 +51,10 @@ class HomePageInContext extends Component {
     }
   }
 
+  setReturn = r => {
+    this.setState({return: r});
+  }
+
   render() {
     if (this.state.completion == null) {
       return null;
@@ -59,14 +62,14 @@ class HomePageInContext extends Component {
     return (
       <div className="overview-container">
         <div className="header-container">
-          <SummaryCard fedReturn={1000000} />
+          <SummaryCard fedReturn={this.state.return} />
           <LogoutButton firebase={this.props.firebase} />
         </div>
-        <MySnackbar/>
         <OverviewCard
           completed={this.state.completion[0]}
           FormProp={AboutYouForm}
           onComplete={this.onComplete(0)}
+          setReturn={this.setReturn}
         >
           About You
         </OverviewCard>
@@ -74,6 +77,7 @@ class HomePageInContext extends Component {
           completed={this.state.completion[1]}
           FormProp={MoreAboutYouForm}
           onComplete={this.onComplete(1)}
+          setReturn={this.setReturn}
         >
           More About You
         </OverviewCard>
@@ -81,6 +85,7 @@ class HomePageInContext extends Component {
           completed={this.state.completion[2]}
           FormProp={AddressForm}
           onComplete={this.onComplete(2)}
+          setReturn={this.setReturn}
         >
           Your Address
         </OverviewCard>
@@ -88,6 +93,7 @@ class HomePageInContext extends Component {
           completed={this.state.completion[3]}
           FormProp={ResidencyForm}
           onComplete={this.onComplete(3)}
+          setReturn={this.setReturn}
         >
           Residency Info
         </OverviewCard>
@@ -95,6 +101,7 @@ class HomePageInContext extends Component {
           completed={this.state.completion[4]}
           FormProp={VisaForm}
           onComplete={this.onComplete(4)}
+          setReturn={this.setReturn}
         >
           Visa Info
         </OverviewCard>
@@ -102,6 +109,7 @@ class HomePageInContext extends Component {
           completed={this.state.completion[5]}
           FormProp={FinancialForm}
           onComplete={this.onComplete(5)}
+          setReturn={this.setReturn}
         >
           Financials
         </OverviewCard>
@@ -110,10 +118,26 @@ class HomePageInContext extends Component {
           FormProp={UploadW2Form}
           icon={AttachMarker}
           onComplete={this.onComplete(6)}
+          setReturn={this.setReturn}
         >
           Upload Your W2
         </OverviewCard>
-        {/* <input type="file" onChange={e => parseW2(e.target.files[0], firebase)} /> */}
+        {this.state.process == 0 ? (
+          <Button variant="contained" className="final" color="primary" disabled={!this.state.completion.every(val => val)} onClick={() => {
+            this.setState({ process: 1 })
+            uploadAll(this.props.firebase, this.props.authUser).then(url => {
+              this.setState({ url: url });
+              this.setState({ process: 2 });
+            });
+          }}>
+            Submit!
+        </Button>
+        ) : this.state.process == 1 ? (
+          <div className="final"><CircularProgress size={30} thickness={5} /></div>
+        ) : (
+              <Button variant="contained" className="final" color="primary" onClick={() => {
+                window.open(this.state.url, '_blank');
+              }}> Done! Click to Download Tax Form! </Button>)}
       </div>
     );
   }
@@ -121,40 +145,15 @@ class HomePageInContext extends Component {
 
 const HomePage = ({ firebase }) => {
   return (
-    <AuthUserContext.Consumer>
-      {authUser => (
-        <HomePageInContext firebase={firebase} authUser={authUser} />
-      )}
-    </AuthUserContext.Consumer>
+    <div style={{ position: "absolute", top: 0, left: 0, padding: "15px", backgroundColor: "#90EE90", height: '100%', width: '100%', overflow: 'hidden', position: 'fixed' }}>
+      <AuthUserContext.Consumer>
+        {authUser => (
+          <HomePageInContext firebase={firebase} authUser={authUser} />
+        )}
+      </AuthUserContext.Consumer>
+    </div>
   );
 };
-
-const MySnackbar = () => {
-
-  return (
-    <Snackbar>
-      <SnackbarContent
-        aria-describedby="client-snackbar"
-        message={
-          <span id="client-snackbar">
-            <CheckCircleIcon />
-            We have found your travel history!
-        </span>
-        }
-        action={[
-          <IconButton
-            key="close"
-            aria-label="Close"
-            color="inherit"
-            onClick={()=>{}}
-          >
-            <CloseIcon />
-          </IconButton>,
-        ]}
-      />
-    </Snackbar>
-  );
-}
 
 const LogoutButton = ({ firebase, history }) => {
   return (
@@ -189,7 +188,7 @@ const SummaryCard = ({ fedReturn }) => {
   );
 };
 
-const OverviewCard = ({ children, FormProp, completed, icon, onComplete }) => {
+const OverviewCard = ({ children, FormProp, completed, icon, onComplete, setReturn }) => {
   const [modalOpened, setModalOpened] = useState(false);
   return (
     <div>
@@ -201,7 +200,7 @@ const OverviewCard = ({ children, FormProp, completed, icon, onComplete }) => {
       >
 
         {completed ? (
-          <DoneMarker className="progress-marker" />
+          <DoneMarker className="progress-marker" style={{ color: '#008000' }} />
         ) : icon ? (
           <AttachMarker className="progress-marker" />
         ) : (
@@ -218,6 +217,7 @@ const OverviewCard = ({ children, FormProp, completed, icon, onComplete }) => {
           toggleModal={() => setModalOpened(!modalOpened)}
         >
           <FormProp
+            setReturn={setReturn}
             onSubmit={() => {
               onComplete();
               setModalOpened(!modalOpened);
