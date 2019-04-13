@@ -59,7 +59,7 @@ class HomePageInContext extends Component {
         <OverviewCard
           completed={this.state.completion[0]}
           FormProp={AboutYouForm}
-          onComplete={() => { this.onComplete(0)(); this.setState({ scrapeResults: this.scrapeI94() })}}
+          onComplete={this.onComplete(0)}
         >
           About You
         </OverviewCard>

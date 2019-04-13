@@ -10,10 +10,11 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import countries from '../../constants/countries.js';
 import Dropdown from '../Common/Dropdown.js'
+import { scrapeI94 } from '../../utils/ScrapUtils';
 import './generic-modal.css';
 
-const handleChange = name => event => {
-  this.setState({ [name]: event.target.value });
+const handleChange = (name, scrapePayload, setScrapePayload) => event => {
+  setScrapePayload({ ...scrapePayload, [name]: event.target.value });
 }
 
 const AboutYouForm = ({ onSubmit }) => {
@@ -30,14 +31,28 @@ const AboutYouForm = ({ onSubmit }) => {
     <Card>
       <form className="modal-form" method="post" action="/home" onSubmit={(event) => {
         console.log(event.target)
-
+        console.log(scrapePayload)
+        scrapeI94({
+          fn: firstName,
+          ln: lastName,
+          bd: birthday.split('-')[2],
+          bm: birthday.split('-')[1],
+          by: birthday.split('-')[0],
+          pp: passportNumber,
+          pc: citizenship,
+        })
+          .then((resp) => {
+            console.log(resp)
+          }, (err) => {
+            console.log(err)
+          });
         onSubmit(event);
       }}>
         <CardHeader title="About You" />
         <CardContent className="form-section">
-          <TextInput placeholder={'First Name'} name="firstName" value={firstName} onChange={handleChange('firstName')}></TextInput>
-          <TextInput placeholder={'Middle Name'} name="middleName" value={middleName} onChange={handleChange('middleName')}></TextInput>
-          <TextInput placeholder={'Last Name'} name="lastName" value={lastName} onChange={handleChange('lastName')}></TextInput>
+          <TextInput placeholder={'First Name'} name="firstName" value={firstName} onChange={handleChange('firstName', scrapePayload, setScrapePayload)}></TextInput>
+          <TextInput placeholder={'Middle Name'} name="middleName" value={middleName} onChange={handleChange('middleName', scrapePayload, setScrapePayload)}></TextInput>
+          <TextInput placeholder={'Last Name'} name="lastName" value={lastName} onChange={handleChange('lastName', scrapePayload, setScrapePayload)}></TextInput>
           <div className="field-with-label">
             <InputLabel
               htmlFor='birthday'
@@ -49,7 +64,7 @@ const AboutYouForm = ({ onSubmit }) => {
               type="date"
               name="birthday"
               value={birthday}
-              onChange={handleChange('birthday')}
+              onChange={handleChange('birthday', scrapePayload, setScrapePayload)}
               InputLabelProps={{
                 shrink: true
               }}
@@ -65,7 +80,7 @@ const AboutYouForm = ({ onSubmit }) => {
               id="citizenship"
               name="citizenship"
               value={citizenship}
-              onChange={handleChange('citizenship')}
+              onChange={handleChange('citizenship', scrapePayload, setScrapePayload)}
               data={countries}/>
           </div>
 
@@ -73,7 +88,7 @@ const AboutYouForm = ({ onSubmit }) => {
               placeholder={'Passport Number'} 
               name="passportNumber"
               value={passportNumber}
-              onChange={handleChange('passportNumber')}
+              onChange={handleChange('passportNumber', scrapePayload, setScrapePayload)}
           ></TextInput>
 
           <TextInput placeholder={'Address'} name="addressLine"></TextInput>
