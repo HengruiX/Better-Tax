@@ -12,7 +12,7 @@ import './generic-modal.css';
 
 const AboutYouForm = ({ onSubmit }) => {
   return (
-    <form className="form" method="post" action="/home" onSubmit={(event) => {
+    <form className="modal-form" method="post" action="/home" onSubmit={(event) => {
       console.log(event.target)
     }}>
       <div className="form-section">

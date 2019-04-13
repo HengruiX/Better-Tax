@@ -67,6 +67,7 @@ class HomePageInContext extends Component {
         <OverviewCard
           completed={this.state.completion[2]}
           FormProp={VisaForm}
+          onComplete={this.onComplete(2)}
         >
           Visa Info
         </OverviewCard>

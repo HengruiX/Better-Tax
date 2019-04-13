@@ -26,7 +26,7 @@ const ResidencyFormInContext = ({ firebase, authUser, onSubmit }) => {
           }
         );
       }}>
-        <CardHeader title="Residency Status" />
+        <CardHeader title="Residency Info" />
         <CardContent>
           <Question defaultValue={'yes'} groupName="residencyStatus1">
             Have you been a US citizen, by birth or naturalization, on the
