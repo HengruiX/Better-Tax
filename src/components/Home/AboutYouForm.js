@@ -8,16 +8,20 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import countries from '../../constants/countries.js';
 import Dropdown from '../Common/Dropdown.js'
 import { scrapeI94 } from '../../utils/ScrapUtils';
+import { updateUser } from '../../utils/DBUtils';
+import { FirebaseContext } from '../Firebase';
+import { AuthUserContext } from '../Session';
 import './generic-modal.css';
 
 const handleChange = (name, scrapePayload, setScrapePayload) => event => {
   setScrapePayload({ ...scrapePayload, [name]: event.target.value });
 }
 
-const AboutYouForm = ({ onSubmit }) => {
+const AboutYouFormInContext = ({ firebase, authUser, onSubmit }) => {
   const [scrapePayload, setScrapePayload] = useState({
     firstName: '',
     middleName: '',
@@ -26,13 +30,13 @@ const AboutYouForm = ({ onSubmit }) => {
     citizenship: '',
     passportNumber: '',
   });
+  const [editable, setEditable] = useState(true);
   const { firstName, middleName, lastName, birthday, citizenship, passportNumber } = scrapePayload;
   return (
     <Card>
-      <form className="modal-form" method="post" action="/home" onSubmit={(event) => {
+      <form className="modal-form" onSubmit={(event) => {
         event.preventDefault();
-        console.log(event.target)
-        console.log(scrapePayload)
+        setEditable(false);
         scrapeI94({
           fn: firstName,
           ln: lastName,
@@ -43,11 +47,12 @@ const AboutYouForm = ({ onSubmit }) => {
           pc: citizenship,
         })
           .then((resp) => {
-            console.log(resp)
-          }, (err) => {
-            console.log(err)
+            updateUser(firebase, authUser, resp).then(() => {
+              onSubmit();
+              setEditable(true);
+            });
           });
-        onSubmit(event);
+        
       }}>
         <CardHeader title="About You" />
         <CardContent className="form-section">
@@ -119,12 +124,30 @@ const AboutYouForm = ({ onSubmit }) => {
 
           </CardContent>
           <CardActions>
-            <Button type="submit" color="primary">
-              Submit
-            </Button>
+            {editable ? (
+              <Button type="submit" color="primary">
+                Submit
+              </Button>):(
+              <CircularProgress size={30} thickness={5} />
+            )}
+            
           </CardActions>
       </form>
     </Card>
 )}
+
+const AboutYouForm = ({ onSubmit }) => {
+  return (
+    <FirebaseContext.Consumer>
+      {firebase => (
+        <AuthUserContext.Consumer>
+          {authUser => (
+            <AboutYouFormInContext firebase={firebase} authUser={authUser} onSubmit={onSubmit} />
+          )}
+        </AuthUserContext.Consumer>
+      )}
+    </FirebaseContext.Consumer>
+  );
+};
 
 export default AboutYouForm;

@@ -7,6 +7,11 @@ import NotDoneMarker from '@material-ui/icons/KeyboardArrowRight';
 import AttachMarker from '@material-ui/icons/AttachFile';
 import PowerSetter from '@material-ui/icons/PowerSettingsNew';
 import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CloseIcon from '@material-ui/icons/Close';
 
 import FormModal from './FormModal';
 import AboutYouForm from './AboutYouForm';
@@ -14,6 +19,7 @@ import ResidencyForm from './ResidencyForm';
 import VisaForm from './VisaForm';
 import UploadW2Form from './UploadW2Form';
 import FinancialForm from './FinancialForm';
+
 
 import { withAuthorization, AuthUserContext } from '../Session';
 import './styles.css';
@@ -53,9 +59,9 @@ class HomePageInContext extends Component {
       <div className="overview-container">
         <div className="header-container">
           <SummaryCard fedReturn={1000000} />
-          <LogoutButton firebase={this.props.firebase}/>
+          <LogoutButton firebase={this.props.firebase} />
         </div>
-        
+        <MySnackbar/>
         <OverviewCard
           completed={this.state.completion[0]}
           FormProp={AboutYouForm}
@@ -108,10 +114,37 @@ const HomePage = ({ firebase }) => {
   );
 };
 
-const LogoutButton = ({firebase, history}) => {
+const MySnackbar = () => {
+
+  return (
+    <Snackbar>
+      <SnackbarContent
+        aria-describedby="client-snackbar"
+        message={
+          <span id="client-snackbar">
+            <CheckCircleIcon />
+            We have found your travel history!
+        </span>
+        }
+        action={[
+          <IconButton
+            key="close"
+            aria-label="Close"
+            color="inherit"
+            onClick={()=>{}}
+          >
+            <CloseIcon />
+          </IconButton>,
+        ]}
+      />
+    </Snackbar>
+  );
+}
+
+const LogoutButton = ({ firebase, history }) => {
   return (
     <div className="logout-button">
-      <Fab variant="extended" aria-label="Delete" onClick={()=>{
+      <Fab variant="extended" aria-label="Delete" onClick={() => {
         firebase.doSignOut()
       }}>
         <PowerSetter />
