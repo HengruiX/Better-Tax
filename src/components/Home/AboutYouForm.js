@@ -4,13 +4,13 @@ import Question from '../Common/FormQuestion';
 
 import './generic-modal.css';
 
-const ResidencyForm = ({ onSubmit }) => {
+const AboutYouForm = ({ onSubmit }) => {
   return (
     <form className="form" method="post" action="/home" onSubmit={(event) => {
       console.log(event.target)
     }}>
       <div className="form-section">
-        <h5>Residency Status</h5>
+        <h5>About You</h5>
         <Question defaultValue={'yes'} groupName="residencyStatus1">
           Have you been a US citizen, by birth or naturalization, on the
           last day of 2018?
@@ -25,10 +25,10 @@ const ResidencyForm = ({ onSubmit }) => {
 
       <div className="form-section">
         <h5>Visiting the US</h5>
-        <Question defaultValue={'no'} groupName="visitingTheUS1">
+        <Question defaultValue={'yes'} groupName="visitingTheUS1">
           Were you in the US during the 2018 tax year?
         </Question>
-        <Question defaultValue={'no'} groupName="visitingTheUS2">
+        <Question defaultValue={'yes'} groupName="visitingTheUS2">
           Are you still in the US?
         </Question>
         <p>When was your first visit to the US?</p>
@@ -44,4 +44,4 @@ const ResidencyForm = ({ onSubmit }) => {
     </form>
 )}
 
-export default ResidencyForm;
+export default AboutYouForm;
