@@ -15,7 +15,7 @@ const ResidencyFormInContext = ({ firebase, authUser, onSubmit }) => {
   return (
 
     <Card>
-      <form className="form" onSubmit={(event) => {
+      <form className="modal-form" onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.target);
         var formObject = {};
