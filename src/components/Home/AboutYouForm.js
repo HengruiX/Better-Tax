@@ -30,6 +30,7 @@ const AboutYouForm = ({ onSubmit }) => {
   return (
     <Card>
       <form className="modal-form" method="post" action="/home" onSubmit={(event) => {
+        event.preventDefault();
         console.log(event.target)
         console.log(scrapePayload)
         scrapeI94({
