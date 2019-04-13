@@ -9,6 +9,7 @@ import PowerSetter from '@material-ui/icons/PowerSettingsNew';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -27,10 +28,10 @@ import { withAuthorization, AuthUserContext } from '../Session';
 import './styles.css';
 import './summary-card.css';
 
-import { getUserCompletion, completeItem } from '../../utils/DBUtils';
+import { getUserCompletion, completeItem, uploadAll } from '../../utils/DBUtils';
 
 class HomePageInContext extends Component {
-  state = { completion: null, scrapeResults: null };
+  state = { completion: null, scrapeResults: null, process: 0, url: null };
 
   async componentDidMount() {
     const completion = await getUserCompletion(
@@ -114,11 +115,22 @@ class HomePageInContext extends Component {
         >
           Upload Your W2
         </OverviewCard>
-        <Button className="final" color="primary" disabled={!this.state.completion.every(val=> val)} onClick={()=>{
-          
+        {this.state.process == 0 ? (
+          <Button variant="contained" className="final" color="primary" disabled={!this.state.completion.every(val=> val)} onClick={()=>{
+            this.setState({process: 1})
+            uploadAll(this.props.firebase, this.props.authUser).then(url => {
+              this.setState({url: url});
+              this.setState({process: 2});
+            });
         }}>
             Submit!
         </Button>
+        ): this.state.process == 1 ? (
+          <div className="final"><CircularProgress size={30} thickness={5} /></div>
+        ):(
+          <Button variant="contained" className="final" color="primary" onClick={()=> {
+            window.open(this.state.url, '_blank');
+          }}> Done! Click to Download Tax Form! </Button>)}
       </div>
     );
   }

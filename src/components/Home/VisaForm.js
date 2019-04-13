@@ -42,8 +42,8 @@ const VisaFormInContext = ({ firebase, authUser, onSubmit }) => {
               name: 'visaType',
             }}
           >
-            <MenuItem value={1}>F1</MenuItem>
-            <MenuItem value={2}>J1</MenuItem>
+            <MenuItem value={'F1'}>F1</MenuItem>
+            <MenuItem value={'J1'}>J1</MenuItem>
           </Select>
           <p>Visa Issue Date</p>
 
