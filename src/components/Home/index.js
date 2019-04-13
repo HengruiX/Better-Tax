@@ -17,8 +17,7 @@ import { withAuthorization, AuthUserContext } from '../Session';
 import './styles.css';
 import './summary-card.css';
 
-
-import { scrapI94 } from '../../utils/ScrapUtils';
+import { scrapeI94 } from '../../utils/ScrapUtils';
 import { getUserCompletion, completeItem } from '../../utils/DBUtils';
 
 class HomePageInContext extends Component {
