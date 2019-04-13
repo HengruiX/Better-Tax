@@ -132,7 +132,7 @@ class HomePageInContext extends Component {
 
 const HomePage = ({ firebase }) => {
   return (
-    <div style={{ position: "absolute", top: 0, left: 0, backgroundColor: "#90EE90", height: '100%', width: '100%' }}>
+    <div style={{ position: "absolute", top: 0, left: 0, padding: "15px", backgroundColor: "#90EE90", height: '100%', width: '100%', overflow: 'hidden', position: 'fixed' }}>
       <AuthUserContext.Consumer>
         {authUser => (
           <HomePageInContext firebase={firebase} authUser={authUser} />
