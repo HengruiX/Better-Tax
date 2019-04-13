@@ -2,6 +2,19 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 500px;
+  align-items: center;
+  width: auto;
   background-color: white;
+  max-width: 800px;
+}
+
+.field-with-label {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  margin-top: 16px;
+}
+
+.field-with-label *:last-child {
+  padding-left: 10px;
 }

@@ -1,76 +1,91 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Question from '../Common/FormQuestion';
-import TextQuestion from '../Common/FormTextQuestion';
+import TextInput from '../Common/FormTextInput';
+import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl'
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 import countries from '../../constants/countries.js';
 import Dropdown from '../Common/Dropdown.js'
 import './generic-modal.css';
 
 const AboutYouForm = ({ onSubmit }) => {
   return (
-    <form className="modal-form" method="post" action="/home" onSubmit={(event) => {
-      console.log(event.target)
-    }}>
-      <div className="form-section">
-        <h5>About You</h5>
-        <TextQuestion placeholder={'First Name'} name="firstName"></TextQuestion>
-        <TextQuestion placeholder={'Middle Name'} name="middleName"></TextQuestion>
-        <TextQuestion placeholder={'Last Name'} name="lastName"></TextQuestion>
-        <p>Birthday</p>
-        <TextField
-          id="date"
-          type="date"
-          name="birthday"
-          defaultValue="2017-05-24"
-          InputLabelProps={{
-            shrink: true
-          }}
-        />
-        <p>Passport Issuing Country</p>
-        <Dropdown
-          id="citizenship"
-          name="citizenship"
-          data={countries}/>
+    <Card>
+      <form className="modal-form" method="post" action="/home" onSubmit={(event) => {
+        console.log(event.target)
+      }}>
+        <CardHeader title="About You" />
+        <CardContent className="form-section">
+          <TextInput placeholder={'First Name'} name="firstName"></TextInput>
+          <TextInput placeholder={'Middle Name'} name="middleName"></TextInput>
+          <TextInput placeholder={'Last Name'} name="lastName"></TextInput>
+          <div className="field-with-label">
+            <InputLabel
+              htmlFor='birthday'
+            >
+              Birthday:
+            </InputLabel>
+            <TextField
+              id="birthday"
+              type="date"
+              name="birthday"
+              defaultValue="2017-05-24"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </div>
+          <div className="field-with-label">
+            <InputLabel
+              htmlFor='citizenship'
+            >
+              Citizenship:
+            </InputLabel>
+            <Dropdown
+              id="citizenship"
+              name="citizenship"
+              data={countries}/>
+          </div>
 
-        <TextQuestion placeholder={'Passport Number'} name="passportNumber"></TextQuestion>
+          <TextInput placeholder={'Passport Number'} name="passportNumber"></TextInput>
 
-        <TextQuestion placeholder={'Address'} name="AddressLine"></TextQuestion>
+          <TextInput placeholder={'Address'} name="AddressLine"></TextInput>
+          <TextInput placeholder={'City'} name="City"></TextInput>
+          <TextInput placeholder={'Zip Code'} name="zipCode"></TextInput>
+          <TextInput placeholder={'Phone Number'} name="Phone Number"></TextInput>
 
-        <TextQuestion placeholder={'City'} name="City"></TextQuestion>
+          <Question defaultValue={'no'} groupName="dependent">
+            Can you be claimed as a dependent on someone else's US tax return?
+          </Question>
 
-        <TextQuestion placeholder={'Zip Code'} name="zipCode"></TextQuestion>
+          <Question defaultValue={'no'} groupName="marriedLastDay">
+            Were you married on the last day of 2018?
+          </Question>
 
-        <TextQuestion placeholder={'Phone Number'} name="Phone Number"></TextQuestion>
+          <Question defaultValue={'yes'} groupName="usIncome">
+            Did you have US income in 2018?
+          </Question>
 
-        <Question defaultValue={'no'} groupName="dependent">
-          Can you be claimed as a dependent on someone else's US tax return?
-        </Question>
+          <Question defaultValue={'yes'} groupName="fullTimeStudent">
+            Are you a full time student or scholar in a US educational institution?
+          </Question>
 
-        <Question defaultValue={'no'} groupName="marriedLastDay">
-          Were you married on the last day of 2018?
-        </Question>
+          <Question defaultValue={'yes'} groupName="degreeCandidate">
+            Are you a degree candidate in a US educational institution?
+          </Question>
 
-        <Question defaultValue={'yes'} groupName="usIncome">
-          Did you have US income in 2018?
-        </Question>
-
-        <Question defaultValue={'yes'} groupName="fullTimeStudent">
-          Are you a full time student or scholar in a US educational institution?
-        </Question>
-
-        <Question defaultValue={'yes'} groupName="degreeCandidate">
-          Are you a degree candidate in a US educational institution?
-        </Question>
-
-      </div>
-      <Button type="submit" color="primary">
-        Submit
-      </Button>
-    </form>
+          </CardContent>
+          <CardActions>
+            <Button type="submit" color="primary">
+              Submit
+            </Button>
+          </CardActions>
+      </form>
+    </Card>
 )}
 
 export default AboutYouForm;
