@@ -30,6 +30,15 @@ class HomePageInContext extends Component {
       this.props.authUser
     );
     this.setState({ completion });
+    console.log(await scrapeI94({
+      fn: 'Harvey',
+      ln: 'Wu',
+      bd: '05',
+      bm: 'February',
+      by: '1996',
+      pp: 'GK935918',
+      pc: 'Canada'
+    }));
   }
 
   onComplete = index => {
