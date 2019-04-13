@@ -1,0 +1,39 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.landing-banner {
+  background-color: grey;
+  width: 100vw;
+  height: 300px;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px;
+  width: 300px;
+  background-color: green;
+  border-radius: 3px;
+}
+
+.form > * {
+  margin-bottom: 15px;
+}
+
+.login-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

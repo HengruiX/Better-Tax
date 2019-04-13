@@ -1,0 +1,21 @@
+.overview-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: auto;
+}
+
+.overview-card {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.progress-marker {
+  padding: 25px;
+}
+
+.section-name {
+  margin-right: 25px;
+}

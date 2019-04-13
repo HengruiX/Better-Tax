@@ -1,0 +1,8 @@
+.question-container {
+  display: flex;
+}
+
+.question-container > p:first-child {
+  padding: 10px;
+  margin-right: 10px;
+}

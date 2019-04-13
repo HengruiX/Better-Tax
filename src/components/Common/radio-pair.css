@@ -1,0 +1,7 @@
+.radio-pair-group {
+  display: inline-table;
+}
+
+.radio-pair-group > * {
+  display: inline;
+}
