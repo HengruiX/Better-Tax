@@ -48,11 +48,7 @@ class BaseForm extends Component {
         >
           {({ isSubmitting }) => (
             <Form className="form">
-              <img
-                src="https://www.newton.ac.uk/files/covers/968361.jpg"
-                width="300"
-                height="200"
-              />
+              <h3>Sign in.</h3>
               <Field className="form-text-field" type="email" name="email" />
               <ErrorMessage name="email" component="div" />
               <Field
