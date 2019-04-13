@@ -12,6 +12,7 @@ import AboutYouForm from './AboutYouForm';
 import ResidencyForm from './ResidencyForm';
 import VisaForm from './VisaForm';
 import UploadW2Form from './UploadW2Form';
+import FinancialForm from './FinancialForm';
 
 import { withAuthorization, AuthUserContext } from '../Session';
 import './styles.css';
@@ -76,14 +77,21 @@ class HomePageInContext extends Component {
         <OverviewCard
           completed={this.state.completion[2]}
           FormProp={VisaForm}
+          onComplete={this.onComplete(2)}
         >
           Visa Info
         </OverviewCard>
         <OverviewCard
           completed={this.state.completion[3]}
+          FormProp={FinancialForm}
+        >
+          Financials
+        </OverviewCard>
+        <OverviewCard
+          completed={this.state.completion[4]}
           FormProp={UploadW2Form}
           icon={AttachMarker}
-          onComplete={this.onComplete(3)}
+          onComplete={this.onComplete(4)}
         >
           Upload Your W2
         </OverviewCard>

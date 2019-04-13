@@ -53,6 +53,11 @@ const AboutYouForm = ({ onSubmit }) => {
 
           <TextInput placeholder={'Passport Number'} name="passportNumber"></TextInput>
 
+          <TextInput placeholder={'Address'} name="AddressLine"></TextInput>
+          <TextInput placeholder={'City'} name="City"></TextInput>
+          <TextInput placeholder={'Zip Code'} name="zipCode"></TextInput>
+          <TextInput placeholder={'Phone Number'} name="Phone Number"></TextInput>
+
           <Question defaultValue={'no'} groupName="dependent">
             Can you be claimed as a dependent on someone else's US tax return?
           </Question>
@@ -73,12 +78,12 @@ const AboutYouForm = ({ onSubmit }) => {
             Are you a degree candidate in a US educational institution?
           </Question>
 
-        </CardContent>
-        <CardActions>
-          <Button type="submit" color="primary">
-            Submit
-          </Button>
-        </CardActions>
+          </CardContent>
+          <CardActions>
+            <Button type="submit" color="primary">
+              Submit
+            </Button>
+          </CardActions>
       </form>
     </Card>
 )}
