@@ -8,12 +8,7 @@ import AttachMarker from '@material-ui/icons/AttachFile';
 import PowerSetter from '@material-ui/icons/PowerSettingsNew';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CloseIcon from '@material-ui/icons/Close';
 
 import FormModal from './FormModal';
 import AboutYouForm from './AboutYouForm';
@@ -64,7 +59,6 @@ class HomePageInContext extends Component {
           <SummaryCard fedReturn={1000000} />
           <LogoutButton firebase={this.props.firebase} />
         </div>
-        <MySnackbar/>
         <OverviewCard
           completed={this.state.completion[0]}
           FormProp={AboutYouForm}
@@ -116,21 +110,21 @@ class HomePageInContext extends Component {
           Upload Your W2
         </OverviewCard>
         {this.state.process == 0 ? (
-          <Button variant="contained" className="final" color="primary" disabled={!this.state.completion.every(val=> val)} onClick={()=>{
-            this.setState({process: 1})
+          <Button variant="contained" className="final" color="primary" disabled={!this.state.completion.every(val => val)} onClick={() => {
+            this.setState({ process: 1 })
             uploadAll(this.props.firebase, this.props.authUser).then(url => {
-              this.setState({url: url});
-              this.setState({process: 2});
+              this.setState({ url: url });
+              this.setState({ process: 2 });
             });
-        }}>
+          }}>
             Submit!
         </Button>
-        ): this.state.process == 1 ? (
+        ) : this.state.process == 1 ? (
           <div className="final"><CircularProgress size={30} thickness={5} /></div>
-        ):(
-          <Button variant="contained" className="final" color="primary" onClick={()=> {
-            window.open(this.state.url, '_blank');
-          }}> Done! Click to Download Tax Form! </Button>)}
+        ) : (
+              <Button variant="contained" className="final" color="primary" onClick={() => {
+                window.open(this.state.url, '_blank');
+              }}> Done! Click to Download Tax Form! </Button>)}
       </div>
     );
   }
@@ -138,40 +132,15 @@ class HomePageInContext extends Component {
 
 const HomePage = ({ firebase }) => {
   return (
-    <AuthUserContext.Consumer>
-      {authUser => (
-        <HomePageInContext firebase={firebase} authUser={authUser} />
-      )}
-    </AuthUserContext.Consumer>
+    <div style={{ position: "absolute", top: 0, left: 0, backgroundColor: "#90EE90", height: '100%', width: '100%' }}>
+      <AuthUserContext.Consumer>
+        {authUser => (
+          <HomePageInContext firebase={firebase} authUser={authUser} />
+        )}
+      </AuthUserContext.Consumer>
+    </div>
   );
 };
-
-const MySnackbar = () => {
-
-  return (
-    <Snackbar>
-      <SnackbarContent
-        aria-describedby="client-snackbar"
-        message={
-          <span id="client-snackbar">
-            <CheckCircleIcon />
-            We have found your travel history!
-        </span>
-        }
-        action={[
-          <IconButton
-            key="close"
-            aria-label="Close"
-            color="inherit"
-            onClick={()=>{}}
-          >
-            <CloseIcon />
-          </IconButton>,
-        ]}
-      />
-    </Snackbar>
-  );
-}
 
 const LogoutButton = ({ firebase, history }) => {
   return (
@@ -218,7 +187,7 @@ const OverviewCard = ({ children, FormProp, completed, icon, onComplete }) => {
       >
 
         {completed ? (
-          <DoneMarker className="progress-marker" />
+          <DoneMarker className="progress-marker" style={{ color: '#008000' }} />
         ) : icon ? (
           <AttachMarker className="progress-marker" />
         ) : (
