@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Typography from "@material-ui/core/Typography";
@@ -7,51 +7,83 @@ import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import DragAndDrop from "../Lib/DragAndDrop";
 import { FilePicker } from "react-file-picker";
+import { parseW2 } from '../../utils/FileUtils';
+import { FirebaseContext } from '../Firebase';
+import { AuthUserContext } from '../Session';
+import { updateUser } from '../../utils/DBUtils';
 
 import "./generic-modal.css";
 import "./w2-form.css";
 
-const UploadW2Form = ({ onSubmit }) => {
-  const [file, setFile] = useState(null);
-  const handleChange = files => {
+class UploadW2FormInContext extends Component {
+  state = { file: null };
+
+  handleChange = files => {
     if (files.length == 0) {
-      setFile(null);
+      this.setState({ file: null });
     } else {
-      setFile(files[0]);
+      this.setState({ file: files[0] });
     }
   };
-  return (
-    <Card>
-      <CardHeader title="Upload Your W2 Form" />
-      <CardContent>
-        {file == null ? (
-          <DragAndDrop handleDrop={handleChange}>
-            <FilePicker extensions={["pdf"]} onChange={file => setFile(file)}>
-              <div className="drop-box">
-                <Typography className="drop-text" variant="h7" component="p">
-                  Drag and drop your file or click here
+
+  handleSubmit = () => {
+    parseW2(this.state.file, this.props.firebase).then (jsondata => {
+      updateUser(this.props.firebase, this.props.authUser, jsondata).then(
+        () => {
+          this.props.onSubmit();
+        }
+      )
+    });
+  }
+
+  render() {
+    return (
+      <Card>
+        <CardHeader title="Upload Your W2 Form" />
+        <CardContent>
+          {this.state.file == null ? (
+            <DragAndDrop handleDrop={this.handleChange}>
+              <FilePicker extensions={["pdf"]} onChange={file => this.setState({ file: file })}>
+                <div className="drop-box">
+                  <Typography className="drop-text" variant="h7" component="p">
+                    Drag and Drop Your File or CLick Here
                 </Typography>
-              </div>
-            </FilePicker>
-          </DragAndDrop>
-        ) : (
-          <div className="drop-box-succeed">
-            <Typography
-              className="drop-text-succeed"
-              variant="h7"
-              component="p"
-            >
-              Uploaded! Click Submit to Process
+                </div>
+              </FilePicker>
+            </DragAndDrop>
+          ) : (
+              <div className="drop-box-succeed">
+                <Typography
+                  className="drop-text-succeed"
+                  variant="h7"
+                  component="p"
+                >
+                  Uploaded! Click Submit to Process
             </Typography>
-          </div>
-        )}
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="primary" disabled={file == null}>
-          Submit
+              </div>
+            )}
+        </CardContent>
+        <CardActions>
+          <Button size="small" color="primary" disabled={this.state.file == null} onClick={this.handleSubmit}>
+            Submit
         </Button>
-      </CardActions>
-    </Card>
+        </CardActions>
+      </Card>
+    );
+  }
+}
+
+const UploadW2Form = ({onSubmit}) => {
+  return (
+    <FirebaseContext.Consumer>
+      {firebase => (
+        <AuthUserContext.Consumer>
+          {authUser => (
+            <UploadW2FormInContext firebase={firebase} authUser={authUser} onSubmit={onSubmit}/>
+          )}
+        </AuthUserContext.Consumer>
+      )}
+    </FirebaseContext.Consumer>
   );
 };
 
