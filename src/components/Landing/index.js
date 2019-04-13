@@ -3,10 +3,11 @@ import UserForm from "./UserForm";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 
+import image from "../../screenshot.png";
 import "./styles.css";
 
 class LandingPage extends Component {
-  state = { show: false };
+  state = { show: true };
 
   toggleModal = () => {
     this.setState({ show: !this.state.show });
@@ -15,11 +16,8 @@ class LandingPage extends Component {
   render() {
     return (
       <div className="App">
-        <LandingBanner />
-        <InfoContainer />
-        <Button type="button" color="primary" onClick={this.toggleModal}>
-          Get Started!
-        </Button>
+        <div className="background-img">
+        </div>
         <LoginModal show={this.state.show} toggleModal={this.toggleModal}>
           <UserForm />
         </LoginModal>
