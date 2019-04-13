@@ -6,6 +6,7 @@
 .question-container > p:first-child {
   padding: 10px;
   margin-right: 30px;
+  max-width: 500px;
 }
 
 .question-container .radio-pair {

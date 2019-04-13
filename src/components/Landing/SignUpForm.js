@@ -18,7 +18,7 @@ class BaseForm extends Component {
         // Create a user in your Firebase realtime database
         this.setState({ error: null });
         this.props.firebase.db.collection("users").doc(authUser.user.uid).set({
-          completion: [false, false, false, false, false, false]
+          completion: [false, false, false, false, false, false, false]
         })
         .then(() => {
           this.props.history.push(ROUTES.HOME);

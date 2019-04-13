@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
-import Question from '../Common/FormQuestion';
 import TextInput from '../Common/FormTextInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
@@ -37,21 +36,29 @@ const AboutYouFormInContext = ({ firebase, authUser, onSubmit }) => {
       <form className="modal-form" onSubmit={(event) => {
         event.preventDefault();
         setEditable(false);
-        scrapeI94({
-          fn: firstName,
-          ln: lastName,
-          bd: birthday.split('-')[2],
-          bm: birthday.split('-')[1],
-          by: birthday.split('-')[0],
-          pp: passportNumber,
-          pc: citizenship,
-        })
-          .then((resp) => {
-            updateUser(firebase, authUser, resp).then(() => {
-              onSubmit();
-              setEditable(true);
-            });
-          });
+
+        const data = new FormData(event.target);
+        var formObject = {};
+        data.forEach((value, key) => { formObject[key] = value });
+        updateUser(firebase, authUser, formObject).then(
+          () => {
+            scrapeI94({
+              fn: firstName,
+              ln: lastName,
+              bd: birthday.split('-')[2],
+              bm: birthday.split('-')[1],
+              by: birthday.split('-')[0],
+              pp: passportNumber,
+              pc: citizenship,
+            })
+              .then((resp) => {
+                updateUser(firebase, authUser, resp).then(() => {
+                  onSubmit();
+                  setEditable(true);
+                });
+              });
+          }
+        );
         
       }}>
         <CardHeader title="About You" />
@@ -96,32 +103,6 @@ const AboutYouFormInContext = ({ firebase, authUser, onSubmit }) => {
               value={passportNumber}
               onChange={handleChange('passportNumber', scrapePayload, setScrapePayload)}
           ></TextInput>
-
-          <TextInput placeholder={'Address'} name="addressLine"></TextInput>
-          <TextInput placeholder={'City'} name="city"></TextInput>
-          <TextInput placeholder={'Zip Code'} name="zipCode"></TextInput>
-          <TextInput placeholder={'Phone Number'} name="phoneNumber"></TextInput>
-
-          <Question defaultValue={'no'} groupName="dependent">
-            Can you be claimed as a dependent on someone else's US tax return?
-          </Question>
-
-          <Question defaultValue={'no'} groupName="marriedLastDay">
-            Were you married on the last day of 2018?
-          </Question>
-
-          <Question defaultValue={'yes'} groupName="usIncome">
-            Did you have US income in 2018?
-          </Question>
-
-          <Question defaultValue={'yes'} groupName="fullTimeStudent">
-            Are you a full time student or scholar in a US educational institution?
-          </Question>
-
-          <Question defaultValue={'yes'} groupName="degreeCandidate">
-            Are you a degree candidate in a US educational institution?
-          </Question>
-
           </CardContent>
           <CardActions>
             {editable ? (

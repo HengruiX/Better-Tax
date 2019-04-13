@@ -15,11 +15,12 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import FormModal from './FormModal';
 import AboutYouForm from './AboutYouForm';
+import MoreAboutYouForm from './MoreAboutYouForm';
 import ResidencyForm from './ResidencyForm';
 import VisaForm from './VisaForm';
 import UploadW2Form from './UploadW2Form';
 import FinancialForm from './FinancialForm';
-
+import AddressForm from './AddressForm';
 
 import { withAuthorization, AuthUserContext } from '../Session';
 import './styles.css';
@@ -71,30 +72,44 @@ class HomePageInContext extends Component {
         </OverviewCard>
         <OverviewCard
           completed={this.state.completion[1]}
-          FormProp={ResidencyForm}
+          FormProp={MoreAboutYouForm}
           onComplete={this.onComplete(1)}
+        >
+          More About You
+        </OverviewCard>
+        <OverviewCard
+          completed={this.state.completion[2]}
+          FormProp={AddressForm}
+          onComplete={this.onComplete(2)}
+        >
+          Your Address
+        </OverviewCard>
+        <OverviewCard
+          completed={this.state.completion[3]}
+          FormProp={ResidencyForm}
+          onComplete={this.onComplete(3)}
         >
           Residency Info
         </OverviewCard>
         <OverviewCard
-          completed={this.state.completion[2]}
+          completed={this.state.completion[4]}
           FormProp={VisaForm}
-          onComplete={this.onComplete(2)}
+          onComplete={this.onComplete(4)}
         >
           Visa Info
         </OverviewCard>
         <OverviewCard
-          completed={this.state.completion[3]}
+          completed={this.state.completion[5]}
           FormProp={FinancialForm}
-          onComplete={this.onComplete(3)}
+          onComplete={this.onComplete(5)}
         >
           Financials
         </OverviewCard>
         <OverviewCard
-          completed={this.state.completion[4]}
+          completed={this.state.completion[6]}
           FormProp={UploadW2Form}
           icon={AttachMarker}
-          onComplete={this.onComplete(4)}
+          onComplete={this.onComplete(6)}
         >
           Upload Your W2
         </OverviewCard>
