@@ -22,7 +22,7 @@ import './summary-card.css';
 import { getUserCompletion, completeItem } from '../../utils/DBUtils';
 
 class HomePageInContext extends Component {
-  state = { completion: null };
+  state = { completion: null, scrapeResults: null };
 
   async componentDidMount() {
     const completion = await getUserCompletion(
@@ -59,6 +59,7 @@ class HomePageInContext extends Component {
         <OverviewCard
           completed={this.state.completion[0]}
           FormProp={AboutYouForm}
+          onComplete={() => { this.onComplete(0)(); this.setState({ scrapeResults: this.scrapeI94() })}}
         >
           About You
         </OverviewCard>
