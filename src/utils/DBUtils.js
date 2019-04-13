@@ -18,7 +18,7 @@ export const completeItem = async (firebase, authUser, item) => {
   });
 };
 
-export const saveW2Info = async (firebase, authUser, data) => {
+export const updateUser = async (firebase, authUser, data) => {
   const docRef = firebase.db.collection("users").doc(authUser.uid);
   await docRef.update(data);
 };

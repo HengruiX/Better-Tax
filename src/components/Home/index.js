@@ -32,6 +32,19 @@ class HomePageInContext extends Component {
     this.setState({ completion });
   }
 
+  onComplete = index => {
+    return () => {
+      completeItem(this.props.firebase, this.props.authUser, index).then(
+        () => {
+          this.setState(oldstate => {
+            oldstate.completion[index] = true;
+            return oldstate;
+          });
+        }
+      );
+    }
+  }
+
   render() {
     if (this.state.completion == null) {
       return null;
@@ -48,6 +61,7 @@ class HomePageInContext extends Component {
         <OverviewCard 
           completed={this.state.completion[1]} 
           FormProp={ResidencyForm}
+          onComplete={this.onComplete(1)}
         >
           Residency Info
         </OverviewCard>
@@ -61,13 +75,7 @@ class HomePageInContext extends Component {
           completed={this.state.completion[3]}
           FormProp={UploadW2Form}
           icon={AttachMarker}
-          onComplete={() => {
-            this.setState(oldstate => {
-              oldstate.completion[3] = true;
-              return oldstate;
-            })
-            completeItem(this.props.firebase, this.props.authUser, 3);
-          }}
+          onComplete={this.onComplete(3)}
         >
           Upload Your W2
         </OverviewCard>
@@ -77,23 +85,6 @@ class HomePageInContext extends Component {
         >
           Get Your Travel Records
         </OverviewCard>
-        {/* <input type="file" onChange={e => parseW2(e.target.files[0], firebase)} /> */}
-        <button
-          onClick={() => {
-            // scrapI94(
-            //   {
-            //     fn: 'Harvey',
-            //     ln: 'Wu',
-            //     bd: '05',
-            //     bm: 'February',
-            //     by: '1996',
-            //     pp: 'GK935918',
-            //     pc: 'Canada'
-            //   },
-            //   // firebase
-            // );
-          }}
-        />
       </div>
     );
   }

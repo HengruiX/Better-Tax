@@ -10,7 +10,7 @@ import { FilePicker } from "react-file-picker";
 import { parseW2 } from '../../utils/FileUtils';
 import { FirebaseContext } from '../Firebase';
 import { AuthUserContext } from '../Session';
-import { saveW2Info } from '../../utils/DBUtils';
+import { updateUser } from '../../utils/DBUtils';
 
 import "./generic-modal.css";
 import "./w2-form.css";
@@ -27,7 +27,7 @@ class UploadW2FormInContext extends Component {
   };
   handleSubmit = () => {
     parseW2(this.state.file, this.props.firebase).then (jsondata => {
-      saveW2Info(this.props.firebase, this.props.authUser, jsondata).then(
+      updateUser(this.props.firebase, this.props.authUser, jsondata).then(
         () => {
           this.props.onSubmit();
         }
