@@ -19,7 +19,6 @@ import { withAuthorization, AuthUserContext } from '../Session';
 import './styles.css';
 import './summary-card.css';
 
-import { scrapeI94 } from '../../utils/ScrapUtils';
 import { getUserCompletion, completeItem } from '../../utils/DBUtils';
 
 class HomePageInContext extends Component {
@@ -54,7 +53,7 @@ class HomePageInContext extends Component {
       <div className="overview-container">
         <div className="header-container">
           <SummaryCard fedReturn={1000000} />
-          <LogoutButton/>
+          <LogoutButton firebase={this.props.firebase}/>
         </div>
         
         <OverviewCard
@@ -107,10 +106,12 @@ const HomePage = ({ firebase }) => {
   );
 };
 
-const LogoutButton = () => {
+const LogoutButton = ({firebase, history}) => {
   return (
     <div className="logout-button">
-      <Fab variant="extended" aria-label="Delete" >
+      <Fab variant="extended" aria-label="Delete" onClick={()=>{
+        firebase.doSignOut()
+      }}>
         <PowerSetter />
         Sign out
       </Fab>

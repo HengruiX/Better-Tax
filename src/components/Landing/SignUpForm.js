@@ -17,9 +17,15 @@ class BaseForm extends Component {
       .then(authUser => {
         // Create a user in your Firebase realtime database
         this.setState({ error: null });
-        this.props.history.push(ROUTES.HOME);
+        this.props.firebase.db.collection("users").doc(authUser.user.uid).set({
+          completion: [false, false, false, false, false, false]
+        })
+        .then(() => {
+          this.props.history.push(ROUTES.HOME);
+        });
       })
       .catch(error => {
+        console.log(error.message);
         this.setState({ error });
       });
   }
