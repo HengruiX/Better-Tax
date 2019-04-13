@@ -23,7 +23,7 @@ const VisaForm = ({ onSubmit }) => {
         <Form className="form">
           <h5>Visa Details</h5>
           <p>What visa do you have?</p>
-          <Field component="select" name="visitingTheUS3">
+          <Field component="select" name="visaType">
             {["F1"].map(i => (
               <option value={i}>{i}</option>
             ))}
@@ -32,6 +32,7 @@ const VisaForm = ({ onSubmit }) => {
           <form>
             <TextField
               id="date"
+              name="visaIssueDate"
               type="date"
               defaultValue="2017-05-24"
               InputLabelProps={{
@@ -43,6 +44,7 @@ const VisaForm = ({ onSubmit }) => {
           <form>
             <TextField
               id="date"
+              name="visaExpiryDate"
               type="date"
               defaultValue="2017-05-24"
               InputLabelProps={{
@@ -50,13 +52,6 @@ const VisaForm = ({ onSubmit }) => {
               }}
             />
           </form>
-          <h5>Visiting the US</h5>
-          <Question defaultValue={"yes"} groupName="visitingTheUS1">
-            Were you in the US during the 2018 tax year?
-          </Question>
-          <Question defaultValue={"yes"} groupName="visitingTheUS2">
-            Are you still in the US?
-          </Question>
           <p>When was your first visit to the US?</p>
           <Dropdown
             id="firstUSVisit"

@@ -28,24 +28,24 @@ const ResidencyFormInContext = ({ firebase, authUser, onSubmit }) => {
       }}>
         <CardHeader title="Residency Status" />
         <CardContent>
-          <Question defaultValue={'yes'} groupName="residencyStatus1">
+          <Question defaultValue={'yes'} groupName="previousUSCitizen">
             Have you been a US citizen, by birth or naturalization, on the
             last day of 2018?
         </Question>
-          <Question defaultValue={'yes'} groupName="residencyStatus2">
+          <Question defaultValue={'yes'} groupName="greenCard">
             Have you ever been a green card holder?
         </Question>
-          <Question defaultValue={'yes'} groupName="residencyStatus3">
+          <Question defaultValue={'yes'} groupName="appliedForCitizen">
             Have you ever applied for US citizenship / lawful residence?
         </Question>
-          <Question defaultValue={'no'} groupName="visitingTheUS1">
+          <Question defaultValue={'no'} groupName="inUSThisYear">
             Were you in the US during the 2018 tax year?
         </Question>
-          <Question defaultValue={'no'} groupName="visitingTheUS2">
+          <Question defaultValue={'no'} groupName="stillInUS">
             Are you still in the US?
         </Question>
           <p>When was your first visit to the US?</p>
-          <select name="visitingTheUS3">
+          <select name="firstVisitToUS">
             {[...Array(50).keys()].map(i => (
               <option value={2019 - i}>{2019 - i}</option>
             ))}
