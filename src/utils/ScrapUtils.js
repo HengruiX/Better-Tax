@@ -1,5 +1,5 @@
 export const scrapeI94 = async (data) => {
-  const res = await fetch("https://pdfparsertax.herokuapp.com/scrape", {
+  const res = await fetch(process.env.BACKEND_SERVICE_URL + "scrape", {
     method: "POST",
     headers: {
       Accept: "application/json",

@@ -29,7 +29,7 @@ const uploadFile = async (file, firebase) => {
 };
 
 const uploadFileToServer = async url => {
-  const res = await fetch("https://pdfparsertax.herokuapp.com/", {
+  const res = await fetch(process.env.BACKEND_SERVICE_URL, {
     method: "POST",
     headers: {
       Accept: "application/json",

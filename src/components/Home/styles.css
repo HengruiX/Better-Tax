@@ -19,3 +19,8 @@
 .section-name {
   margin-right: 25px;
 }
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+}

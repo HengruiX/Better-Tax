@@ -5,7 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import DoneMarker from '@material-ui/icons/CheckCircleOutline';
 import NotDoneMarker from '@material-ui/icons/KeyboardArrowRight';
 import AttachMarker from '@material-ui/icons/AttachFile';
-import TravelHistoryMarker from '@material-ui/icons/Public';
+import PowerSetter from '@material-ui/icons/PowerSettingsNew';
+import Fab from '@material-ui/core/Fab';
 
 import FormModal from './FormModal';
 import AboutYouForm from './AboutYouForm';
@@ -30,15 +31,6 @@ class HomePageInContext extends Component {
       this.props.authUser
     );
     this.setState({ completion });
-    console.log(await scrapeI94({
-      fn: 'Harvey',
-      ln: 'Wu',
-      bd: '05',
-      bm: 'February',
-      by: '1996',
-      pp: 'GK935918',
-      pc: 'Canada'
-    }));
   }
 
   onComplete = index => {
@@ -60,15 +52,19 @@ class HomePageInContext extends Component {
     }
     return (
       <div className="overview-container">
-        <SummaryCard fedReturn={1000000} />
+        <div className="header-container">
+          <SummaryCard fedReturn={1000000} />
+          <LogoutButton/>
+        </div>
+        
         <OverviewCard
           completed={this.state.completion[0]}
           FormProp={AboutYouForm}
         >
           About You
         </OverviewCard>
-        <OverviewCard 
-          completed={this.state.completion[1]} 
+        <OverviewCard
+          completed={this.state.completion[1]}
           FormProp={ResidencyForm}
           onComplete={this.onComplete(1)}
         >
@@ -111,6 +107,17 @@ const HomePage = ({ firebase }) => {
   );
 };
 
+const LogoutButton = () => {
+  return (
+    <div className="logout-button">
+      <Fab variant="extended" aria-label="Delete" >
+        <PowerSetter />
+        Sign out
+      </Fab>
+    </div >
+  );
+}
+
 const SummaryCard = ({ fedReturn }) => {
   return (
     <Paper className="summary-card" square={false} elevation={1}>
@@ -145,10 +152,10 @@ const OverviewCard = ({ children, FormProp, completed, icon, onComplete }) => {
         {completed ? (
           <DoneMarker className="progress-marker" />
         ) : icon ? (
-            <AttachMarker className="progress-marker" />
-          ) : (
-          <NotDoneMarker className="progress-marker" />
-          )}
+          <AttachMarker className="progress-marker" />
+        ) : (
+              <NotDoneMarker className="progress-marker" />
+            )}
 
         <Typography className="section-name" variant="h5" component="h4">
           {children}
