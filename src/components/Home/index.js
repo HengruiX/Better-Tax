@@ -44,7 +44,10 @@ class HomePageInContext extends Component {
         >
           Section 1
         </OverviewCard>
-        <OverviewCard completed={this.state.completion[1]} FormProp={VisaForm}>
+        <OverviewCard 
+          completed={this.state.completion[1]} 
+          FormProp={VisaForm}
+        >
           Section 2
         </OverviewCard>
         <OverviewCard
@@ -69,18 +72,18 @@ class HomePageInContext extends Component {
         {/* <input type="file" onChange={e => parseW2(e.target.files[0], firebase)} /> */}
         <button
           onClick={() => {
-            scrapI94(
-              {
-                fn: 'Harvey',
-                ln: 'Wu',
-                bd: '05',
-                bm: 'February',
-                by: '1996',
-                pp: 'GK935918',
-                pc: 'Canada'
-              },
-              firebase
-            );
+            // scrapI94(
+            //   {
+            //     fn: 'Harvey',
+            //     ln: 'Wu',
+            //     bd: '05',
+            //     bm: 'February',
+            //     by: '1996',
+            //     pp: 'GK935918',
+            //     pc: 'Canada'
+            //   },
+            //   // firebase
+            // );
           }}
         />
       </div>
