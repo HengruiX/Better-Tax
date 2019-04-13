@@ -25,6 +25,7 @@ class UploadW2FormInContext extends Component {
       this.setState({ file: files[0] });
     }
   };
+
   handleSubmit = () => {
     parseW2(this.state.file, this.props.firebase).then (jsondata => {
       updateUser(this.props.firebase, this.props.authUser, jsondata).then(

@@ -87,12 +87,7 @@ class HomePageInContext extends Component {
         >
           Upload Your W2
         </OverviewCard>
-        <OverviewCard
-          completed={this.state.completion[4]}
-          icon={TravelHistoryMarker}
-        >
-          Get Your Travel Records
-        </OverviewCard>
+        {/* <input type="file" onChange={e => parseW2(e.target.files[0], firebase)} /> */}
       </div>
     );
   }

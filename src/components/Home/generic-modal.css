@@ -1,8 +1,7 @@
-.form {
+.modal-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 350px;
-  padding: 0;
   background-color: white;
 }
