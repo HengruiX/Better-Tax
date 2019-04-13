@@ -29,7 +29,7 @@ const UploadW2Form = ({ onSubmit }) => {
             <FilePicker extensions={["pdf"]} onChange={file => setFile(file)}>
               <div className="drop-box">
                 <Typography className="drop-text" variant="h7" component="p">
-                  Drag and Drop Your File or CLick Here
+                  Drag and drop your file or click here
                 </Typography>
               </div>
             </FilePicker>

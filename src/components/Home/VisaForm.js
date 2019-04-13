@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Question from "../Common/FormQuestion";
+import Dropdown from "../Common/Dropdown";
 import TextField from "@material-ui/core/TextField";
 
 import "./generic-modal.css";
@@ -57,11 +58,11 @@ const VisaForm = ({ onSubmit }) => {
             Are you still in the US?
           </Question>
           <p>When was your first visit to the US?</p>
-          <Field component="select" name="visitingTheUS3">
-            {[...Array(50).keys()].map(i => (
-              <option value={2019 - i}>{2019 - i}</option>
-            ))}
-          </Field>
+          <Dropdown
+            id="firstUSVisit"
+            name="firstUSVisit"
+            data={[...Array(20).keys()].map(i => 2019 - i)}
+            />
           <Button type="submit" color="primary">
             Submit
           </Button>
