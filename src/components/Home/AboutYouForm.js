@@ -1,6 +1,8 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Question from '../Common/FormQuestion';
+import TextQuestion from '../Common/FormTextQuestion';
+import TextField from '@material-ui/core/TextField';
 
 import './generic-modal.css';
 
@@ -11,32 +13,19 @@ const AboutYouForm = ({ onSubmit }) => {
     }}>
       <div className="form-section">
         <h5>About You</h5>
-        <Question defaultValue={'yes'} groupName="residencyStatus1">
-          Have you been a US citizen, by birth or naturalization, on the
-          last day of 2018?
-        </Question>
-        <Question defaultValue={'yes'} groupName="residencyStatus2">
-          Have you ever been a green card holder?
-        </Question>
-        <Question defaultValue={'yes'} groupName="residencyStatus3">
-          Have you ever applied for US citizenship / lawful residence?
-        </Question>
-      </div>
-
-      <div className="form-section">
-        <h5>Visiting the US</h5>
-        <Question defaultValue={'yes'} groupName="visitingTheUS1">
-          Were you in the US during the 2018 tax year?
-        </Question>
-        <Question defaultValue={'yes'} groupName="visitingTheUS2">
-          Are you still in the US?
-        </Question>
-        <p>When was your first visit to the US?</p>
-        <select name="visitingTheUS3">
-          {[...Array(50).keys()].map(i => (
-            <option value={2019 - i}>{2019 - i}</option>
-          ))}
-        </select>
+        <TextQuestion placeholder={'First Name'} name="firstName">First Name</TextQuestion>
+        <TextQuestion placeholder={'Middle Name'} name="middleName">Middle Name</TextQuestion>
+        <TextQuestion placeholder={'Last Name'} name="lastName">Last Name</TextQuestion>
+        <p>Birthday</p>
+        <TextField
+          id="date"
+          type="date"
+          name="birthday"
+          defaultValue="2017-05-24"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
       </div>
       <Button type="submit" color="primary">
         Submit
