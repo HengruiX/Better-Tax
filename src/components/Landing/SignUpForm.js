@@ -74,6 +74,7 @@ class BaseForm extends Component {
                 variant="contained"
                 color="primary"
                 disabled={isSubmitting}
+                style={{ 'margin-bottom': '15px' }}
               >
                 Sign up
               </Button>
