@@ -3,8 +3,8 @@ import UserForm from "./UserForm";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import { Hero, Navbar, Features } from '@front10/landing-page-book/dist/components';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@front10/landing-page-book/dist/themes/default/index.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import '@front10/landing-page-book/dist/themes/default/index.css';
 
 import image from "../../screenshot.png";
 import "./styles.css";
