@@ -7,6 +7,7 @@ import NotDoneMarker from '@material-ui/icons/KeyboardArrowRight';
 import AttachMarker from '@material-ui/icons/AttachFile';
 import PowerSetter from '@material-ui/icons/PowerSettingsNew';
 import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
@@ -113,7 +114,11 @@ class HomePageInContext extends Component {
         >
           Upload Your W2
         </OverviewCard>
-        {/* <input type="file" onChange={e => parseW2(e.target.files[0], firebase)} /> */}
+        <Button className="final" color="primary" disabled={!this.state.completion.every(val=> val)} onClick={()=>{
+          
+        }}>
+            Submit!
+        </Button>
       </div>
     );
   }
