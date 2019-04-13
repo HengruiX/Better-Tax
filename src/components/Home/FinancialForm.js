@@ -13,7 +13,6 @@ import './generic-modal.css';
 
 const FinancialFormInContext = ({ firebase, authUser, onSubmit }) => {
   return (
-
     <Card>
       <form className="modal-form" onSubmit={(event) => {
         event.preventDefault();

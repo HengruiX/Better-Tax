@@ -40,7 +40,7 @@ const VisaFormInContext = ({ firebase, authUser, onSubmit }) => {
             value={field}
             onChange={e => {setField(e.target.value)}}
             inputProps={{
-              name: 'visatype',
+              name: 'visaType',
             }}
           >
             <MenuItem value={1}>F1</MenuItem>
@@ -69,10 +69,10 @@ const VisaFormInContext = ({ firebase, authUser, onSubmit }) => {
               shrink: true
             }}
           />
-          <Question defaultValue={"yes"} groupName="inUS1">
+          <Question defaultValue={"yes"} groupName="inUSDuring2018">
             Were you in the US during the 2018 tax year?
           </Question>
-          <Question defaultValue={"yes"} groupName="inUS2">
+          <Question defaultValue={"yes"} groupName="stillInUS">
             Are you still in the US?
           </Question>
 

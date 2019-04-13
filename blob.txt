@@ -1,0 +1,32 @@
+{
+  previousUSCitizen: y / n,
+  greenCard: y / n,
+  appliedForCitizen: y / n,
+  inUSThisYear: y / n,
+  stillInUS: y / n,
+  firstVisitToUS: numerical string,
+
+  firstName: string,
+  middleName: string,
+  lastName: string,
+
+  passportNumber: string,
+  addressLine: string,
+  city: string,
+  zipCode: string,
+  phoneNumber: string,
+
+  dependent: y / n,
+  marriedLastDay: y / n,
+  usIncome: y / n,
+  fullTimeStudent: y / n,
+  degreeCandidate: y / n,
+
+  visaType: F1 / J1,
+  visaIssueDate: yyyy-mm-dd string,
+  visaExpiryDate: yyyy-mm-dd string,
+  firstUSVisit: yyyy string,
+  inUSDuring2018: y / n,
+  stillInUS: y / n
+
+}

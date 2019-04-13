@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Question from '../Common/FormQuestion';
 import TextInput from '../Common/FormTextInput';
@@ -12,17 +12,32 @@ import countries from '../../constants/countries.js';
 import Dropdown from '../Common/Dropdown.js'
 import './generic-modal.css';
 
+const handleChange = name => event => {
+  this.setState({ [name]: event.target.value });
+}
+
 const AboutYouForm = ({ onSubmit }) => {
+  const [scrapePayload, setScrapePayload] = useState({
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    birthday: "2017-05-24",
+    citizenship: '',
+    passportNumber: '',
+  });
+  const { firstName, middleName, lastName, birthday, citizenship, passportNumber } = scrapePayload;
   return (
     <Card>
       <form className="modal-form" method="post" action="/home" onSubmit={(event) => {
         console.log(event.target)
+
+        onSubmit(event);
       }}>
         <CardHeader title="About You" />
         <CardContent className="form-section">
-          <TextInput placeholder={'First Name'} name="firstName"></TextInput>
-          <TextInput placeholder={'Middle Name'} name="middleName"></TextInput>
-          <TextInput placeholder={'Last Name'} name="lastName"></TextInput>
+          <TextInput placeholder={'First Name'} name="firstName" value={firstName} onChange={handleChange('firstName')}></TextInput>
+          <TextInput placeholder={'Middle Name'} name="middleName" value={middleName} onChange={handleChange('middleName')}></TextInput>
+          <TextInput placeholder={'Last Name'} name="lastName" value={lastName} onChange={handleChange('lastName')}></TextInput>
           <div className="field-with-label">
             <InputLabel
               htmlFor='birthday'
@@ -33,7 +48,8 @@ const AboutYouForm = ({ onSubmit }) => {
               id="birthday"
               type="date"
               name="birthday"
-              defaultValue="2017-05-24"
+              value={birthday}
+              onChange={handleChange('birthday')}
               InputLabelProps={{
                 shrink: true
               }}
@@ -48,15 +64,22 @@ const AboutYouForm = ({ onSubmit }) => {
             <Dropdown
               id="citizenship"
               name="citizenship"
+              value={citizenship}
+              onChange={handleChange('citizenship')}
               data={countries}/>
           </div>
 
-          <TextInput placeholder={'Passport Number'} name="passportNumber"></TextInput>
+          <TextInput 
+              placeholder={'Passport Number'} 
+              name="passportNumber"
+              value={passportNumber}
+              onChange={handleChange('passportNumber')}
+          ></TextInput>
 
-          <TextInput placeholder={'Address'} name="AddressLine"></TextInput>
-          <TextInput placeholder={'City'} name="City"></TextInput>
+          <TextInput placeholder={'Address'} name="addressLine"></TextInput>
+          <TextInput placeholder={'City'} name="city"></TextInput>
           <TextInput placeholder={'Zip Code'} name="zipCode"></TextInput>
-          <TextInput placeholder={'Phone Number'} name="Phone Number"></TextInput>
+          <TextInput placeholder={'Phone Number'} name="phoneNumber"></TextInput>
 
           <Question defaultValue={'no'} groupName="dependent">
             Can you be claimed as a dependent on someone else's US tax return?
