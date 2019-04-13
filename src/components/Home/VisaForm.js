@@ -26,7 +26,6 @@ const VisaFormInContext = ({ firebase, authUser, onSubmit }) => {
         const data = new FormData(event.target);
         var formObject = {};
         data.forEach((value, key) => { formObject[key] = value });
-        console.log(formObject);
         updateUser(firebase, authUser, formObject).then(
           () => {
             onSubmit();

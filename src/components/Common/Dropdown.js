@@ -6,6 +6,7 @@ import './form-question.css';
 
 const Dropdown = ({ id, name, data }) => {
 	const [value, setValue] = useState(data[0]);
+	console.log(data);
 	return (
 		<div className="question-container">
 			<Select

@@ -55,9 +55,7 @@ const ResidencyFormInContext = ({ firebase, authUser, onSubmit }) => {
           <Dropdown
             id="firstVisitToUS"
             name="firstVisitToUS"
-            data={[...Array(20).keys()].map(i => (
-              <option value={2019 - i}>{2019 - i}</option>
-            ))}/>
+            data={[...Array(20).keys()].map(i => 2019 - i)}/>
         </div>
         </CardContent>
         <CardActions>
