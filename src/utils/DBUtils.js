@@ -9,10 +9,16 @@ export const getUserCompletion = async (firebase, authUser) => {
 };
 
 export const completeItem = async (firebase, authUser, item) => {
-  const userDoc = await queryUserDoc(firebase, authUser);
+  const docRef = firebase.db.collection("users").doc(authUser.uid);
+  const userDoc = await docRef.get();
   const completion = userDoc.data().completion;
   completion[item] = true;
-  await userDoc.update({
+  await docRef.update({
     completion: completion
   });
+};
+
+export const saveW2Info = async (firebase, authUser, data) => {
+  const docRef = firebase.db.collection("users").doc(authUser.uid);
+  await docRef.update(data);
 };

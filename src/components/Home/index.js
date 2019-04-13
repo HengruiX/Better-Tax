@@ -16,9 +16,9 @@ import { withAuthorization, AuthUserContext } from '../Session';
 import './styles.css';
 import './summary-card.css';
 
-import { parseW2 } from '../../utils/FileUtils';
+
 import { scrapI94 } from '../../utils/ScrapUtils';
-import { getUserCompletion } from '../../utils/DBUtils';
+import { getUserCompletion, completeItem } from '../../utils/DBUtils';
 
 class HomePageInContext extends Component {
   state = { completion: null };
@@ -44,8 +44,8 @@ class HomePageInContext extends Component {
         >
           Section 1
         </OverviewCard>
-        <OverviewCard 
-          completed={this.state.completion[1]} 
+        <OverviewCard
+          completed={this.state.completion[1]}
           FormProp={VisaForm}
         >
           Section 2
@@ -60,6 +60,13 @@ class HomePageInContext extends Component {
           completed={this.state.completion[3]}
           FormProp={UploadW2Form}
           icon={AttachMarker}
+          onComplete={() => {
+            this.setState(oldstate => {
+              oldstate.completion[3] = true;
+              return oldstate;
+            })
+            completeItem(this.props.firebase, this.props.authUser, 3);
+          }}
         >
           Upload Your W2
         </OverviewCard>
@@ -121,7 +128,7 @@ const SummaryCard = ({ fedReturn }) => {
   );
 };
 
-const OverviewCard = ({ children, FormProp, completed, icon }) => {
+const OverviewCard = ({ children, FormProp, completed, icon, onComplete }) => {
   const [modalOpened, setModalOpened] = useState(false);
   return (
     <div>
@@ -131,13 +138,14 @@ const OverviewCard = ({ children, FormProp, completed, icon }) => {
         square={false}
         elevation={1}
       >
-        {icon ? (
-          <AttachMarker className="progress-marker" />
-        ) : completed ? (
+
+        {completed ? (
           <DoneMarker className="progress-marker" />
-        ) : (
+        ) : icon ? (
+            <AttachMarker className="progress-marker" />
+          ) : (
           <NotDoneMarker className="progress-marker" />
-        )}
+          )}
 
         <Typography className="section-name" variant="h5" component="h4">
           {children}
@@ -150,6 +158,7 @@ const OverviewCard = ({ children, FormProp, completed, icon }) => {
         >
           <FormProp
             onSubmit={() => {
+              onComplete();
               setModalOpened(!modalOpened);
             }}
           />
