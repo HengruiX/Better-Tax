@@ -23,6 +23,11 @@ export const updateUser = async (firebase, authUser, data) => {
   await docRef.update(data);
 };
 
+export const getReturn = async (firebase, authUser) => {
+  const userDoc = await queryUserDoc(firebase, authUser);
+  return userDoc.data().federal_tax;
+}
+
 export const uploadAll = async (firebase, authUser) => {
   const userDoc = await queryUserDoc(firebase, authUser);
   const data = userDoc.data();
@@ -44,7 +49,6 @@ export const uploadAll = async (firebase, authUser) => {
     '23': data.wages,
     '5.A': data.citizenship,
     '5.B': data.citizenship,
-    '5.C.n': true,
     '5.D.1.n': true,
     '5.D.2.n': true,
     '5.E': data.visaType,
@@ -57,22 +61,15 @@ export const uploadAll = async (firebase, authUser) => {
     '36': data.wages,
   }
 
-  // const res = await fetch(process.env.REACT_APP_FINAL_URL, {
-  //   method: "POST",
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json"
-  //   },
-  //   body: JSON.stringify(payload)
-  // });
+  const res = await fetch(process.env.REACT_APP_FINAL_URL, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
 
-  // const jsonres = await res.json();
-  // return jsonres['url'];
-  
-  await sleep(5000);
-  return 'http://www.google.com';
-}
-
-const sleep = async (milliseconds) => {
-  return new Promise(resolve => setTimeout(resolve, milliseconds))
+  const jsonres = await res.json();
+  return jsonres['url'];
 }

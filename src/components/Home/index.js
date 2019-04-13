@@ -23,10 +23,10 @@ import { withAuthorization, AuthUserContext } from '../Session';
 import './styles.css';
 import './summary-card.css';
 
-import { getUserCompletion, completeItem, uploadAll } from '../../utils/DBUtils';
+import { getUserCompletion, completeItem, uploadAll, getReturn } from '../../utils/DBUtils';
 
 class HomePageInContext extends Component {
-  state = { completion: null, scrapeResults: null, process: 0, url: null };
+  state = { completion: null, scrapeResults: null, process: 0, url: null, return: '-' };
 
   async componentDidMount() {
     const completion = await getUserCompletion(
@@ -34,6 +34,8 @@ class HomePageInContext extends Component {
       this.props.authUser
     );
     this.setState({ completion });
+    const r = await getReturn(this.props.firebase, this.props.authUser);
+    this.setState({return : r || '-'})
   }
 
   onComplete = index => {
@@ -49,6 +51,10 @@ class HomePageInContext extends Component {
     }
   }
 
+  setReturn = r => {
+    this.setState({return: r});
+  }
+
   render() {
     if (this.state.completion == null) {
       return null;
@@ -56,13 +62,14 @@ class HomePageInContext extends Component {
     return (
       <div className="overview-container">
         <div className="header-container">
-          <SummaryCard fedReturn={1000000} />
+          <SummaryCard fedReturn={this.state.return} />
           <LogoutButton firebase={this.props.firebase} />
         </div>
         <OverviewCard
           completed={this.state.completion[0]}
           FormProp={AboutYouForm}
           onComplete={this.onComplete(0)}
+          setReturn={this.setReturn}
         >
           About You
         </OverviewCard>
@@ -70,6 +77,7 @@ class HomePageInContext extends Component {
           completed={this.state.completion[1]}
           FormProp={MoreAboutYouForm}
           onComplete={this.onComplete(1)}
+          setReturn={this.setReturn}
         >
           More About You
         </OverviewCard>
@@ -77,6 +85,7 @@ class HomePageInContext extends Component {
           completed={this.state.completion[2]}
           FormProp={AddressForm}
           onComplete={this.onComplete(2)}
+          setReturn={this.setReturn}
         >
           Your Address
         </OverviewCard>
@@ -84,6 +93,7 @@ class HomePageInContext extends Component {
           completed={this.state.completion[3]}
           FormProp={ResidencyForm}
           onComplete={this.onComplete(3)}
+          setReturn={this.setReturn}
         >
           Residency Info
         </OverviewCard>
@@ -91,6 +101,7 @@ class HomePageInContext extends Component {
           completed={this.state.completion[4]}
           FormProp={VisaForm}
           onComplete={this.onComplete(4)}
+          setReturn={this.setReturn}
         >
           Visa Info
         </OverviewCard>
@@ -98,6 +109,7 @@ class HomePageInContext extends Component {
           completed={this.state.completion[5]}
           FormProp={FinancialForm}
           onComplete={this.onComplete(5)}
+          setReturn={this.setReturn}
         >
           Financials
         </OverviewCard>
@@ -106,6 +118,7 @@ class HomePageInContext extends Component {
           FormProp={UploadW2Form}
           icon={AttachMarker}
           onComplete={this.onComplete(6)}
+          setReturn={this.setReturn}
         >
           Upload Your W2
         </OverviewCard>
@@ -175,7 +188,7 @@ const SummaryCard = ({ fedReturn }) => {
   );
 };
 
-const OverviewCard = ({ children, FormProp, completed, icon, onComplete }) => {
+const OverviewCard = ({ children, FormProp, completed, icon, onComplete, setReturn }) => {
   const [modalOpened, setModalOpened] = useState(false);
   return (
     <div>
@@ -204,6 +217,7 @@ const OverviewCard = ({ children, FormProp, completed, icon, onComplete }) => {
           toggleModal={() => setModalOpened(!modalOpened)}
         >
           <FormProp
+            setReturn={setReturn}
             onSubmit={() => {
               onComplete();
               setModalOpened(!modalOpened);
