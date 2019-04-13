@@ -1,4 +1,4 @@
-export const scrapeI94 = async (data, firebase) => {
+export const scrapeI94 = async (data) => {
   const res = await fetch("https://pdfparsertax.herokuapp.com/scrape", {
     method: "POST",
     headers: {

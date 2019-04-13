@@ -46,7 +46,7 @@ class UploadW2FormInContext extends Component {
               <FilePicker extensions={["pdf"]} onChange={file => this.setState({ file: file })}>
                 <div className="drop-box">
                   <Typography className="drop-text" variant="h7" component="p">
-                    Drag and Drop Your File or CLick Here
+                  Drag and drop file, or click here :) 
                 </Typography>
                 </div>
               </FilePicker>

@@ -40,7 +40,7 @@ const VisaFormInContext = ({ firebase, authUser, onSubmit }) => {
             value={field}
             onChange={e => {setField(e.target.value)}}
             inputProps={{
-              name: 'visa',
+              name: 'visatype',
             }}
           >
             <MenuItem value={1}>F1</MenuItem>
@@ -49,7 +49,7 @@ const VisaFormInContext = ({ firebase, authUser, onSubmit }) => {
           <p>Visa Issue Date</p>
 
           <TextField
-            name="visadate1"
+            name="visaIssueDate"
             id="date"
             type="date"
             defaultValue="2017-05-24"
@@ -61,7 +61,7 @@ const VisaFormInContext = ({ firebase, authUser, onSubmit }) => {
           <p>Visa Expiry Date</p>
 
           <TextField
-            name="visadate2"
+            name="visaExpiryDate"
             id="date"
             type="date"
             defaultValue="2017-05-24"
@@ -75,6 +75,7 @@ const VisaFormInContext = ({ firebase, authUser, onSubmit }) => {
           <Question defaultValue={"yes"} groupName="inUS2">
             Are you still in the US?
           </Question>
+
           <p>When was your first visit to the US?</p>
           <Dropdown
             id="firstUSVisit"

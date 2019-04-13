@@ -38,6 +38,14 @@ const AboutYouForm = ({ onSubmit }) => {
 
         <TextQuestion placeholder={'Passport Number'} name="passportNumber"></TextQuestion>
 
+        <TextQuestion placeholder={'Address'} name="AddressLine"></TextQuestion>
+
+        <TextQuestion placeholder={'City'} name="City"></TextQuestion>
+
+        <TextQuestion placeholder={'Zip Code'} name="zipCode"></TextQuestion>
+
+        <TextQuestion placeholder={'Phone Number'} name="Phone Number"></TextQuestion>
+
         <Question defaultValue={'no'} groupName="dependent">
           Can you be claimed as a dependent on someone else's US tax return?
         </Question>
