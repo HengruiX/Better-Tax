@@ -61,6 +61,16 @@ export const uploadAll = async (firebase, authUser) => {
     '36': data.wages,
   }
 
+  const keys = Object.keys(data.days_stayed);
+
+  for (var i = 0; i < keys.length; i++) {
+    payload['G' + (i + 1)] = keys[i];
+  }
+
+  for (var i = keys.length; i < 12; i++) {
+    payload['G' + (i + 1)] = '';
+  }
+
   const res = await fetch(process.env.REACT_APP_FINAL_URL, {
     method: "POST",
     headers: {
