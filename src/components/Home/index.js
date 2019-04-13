@@ -8,6 +8,7 @@ import AttachMarker from '@material-ui/icons/AttachFile';
 import TravelHistoryMarker from '@material-ui/icons/Public';
 
 import FormModal from './FormModal';
+import AboutYouForm from './AboutYouForm';
 import ResidencyForm from './ResidencyForm';
 import VisaForm from './VisaForm';
 import UploadW2Form from './UploadW2Form';
@@ -40,21 +41,21 @@ class HomePageInContext extends Component {
         <SummaryCard fedReturn={1000000} />
         <OverviewCard
           completed={this.state.completion[0]}
+          FormProp={AboutYouForm}
+        >
+          About You
+        </OverviewCard>
+        <OverviewCard 
+          completed={this.state.completion[1]} 
           FormProp={ResidencyForm}
         >
-          Section 1
-        </OverviewCard>
-        <OverviewCard
-          completed={this.state.completion[1]}
-          FormProp={VisaForm}
-        >
-          Section 2
+          Residency Info
         </OverviewCard>
         <OverviewCard
           completed={this.state.completion[2]}
-          FormProp={ResidencyForm}
+          FormProp={VisaForm}
         >
-          Section 3
+          Visa Info
         </OverviewCard>
         <OverviewCard
           completed={this.state.completion[3]}
