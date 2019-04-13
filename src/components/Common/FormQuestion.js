@@ -7,7 +7,7 @@ const FormQuestion = ({ children, defaultValue, groupName }) => {
   return (
     <div className="question-container">
       <p>{children}</p>
-      <RadioPair defaultValue={defaultValue} groupName={groupName} />
+      <RadioPair className="radio-pair" defaultValue={defaultValue} groupName={groupName} />
     </div>
   );
 };

@@ -9,7 +9,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 const RadioPair = ({ defaultValue, groupName }) => {
   const [value, setValue] = useState(defaultValue);
   return (
-    <FormControl component="fieldset">
+    <FormControl component="fieldset" className="radio-pair">
       <RadioGroup
         aria-label="Sorry"
         name={groupName}
