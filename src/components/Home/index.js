@@ -17,7 +17,7 @@ import './styles.css';
 import './summary-card.css';
 
 import { parseW2 } from '../../utils/FileUtils';
-import { scrapI94 } from '../../utils/ScrapUtils';
+import { scrapeI94 } from '../../utils/ScrapUtils';
 import { getUserCompletion } from '../../utils/DBUtils';
 
 class HomePageInContext extends Component {
@@ -69,7 +69,7 @@ class HomePageInContext extends Component {
         {/* <input type="file" onChange={e => parseW2(e.target.files[0], firebase)} /> */}
         <button
           onClick={() => {
-            scrapI94(
+            scrapeI94(
               {
                 fn: 'Harvey',
                 ln: 'Wu',
